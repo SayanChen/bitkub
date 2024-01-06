@@ -45,14 +45,18 @@ class Bitkub:
         return signature
 
     def _get_timestamp(self):
-        timestamp = int(time.time())
+
+        url = self._get_path("SERVERTIME_PATH")
+
+        timestamp = int(basic_request('GET', url))
+        #timestamp = int(time.time())
 
         return timestamp
 
     def _get_payload(self, **kwargs):
-        payload = {"ts": self._get_timestamp()}
+        payload = {"X-BTK-TIMESTAMP": self._get_timestamp()}
         payload.update(kwargs)
-        payload["sig"] = self._get_signature(payload)
+        payload["X-BTK-SIGN"] = self._get_signature(payload)
         payload = self._json_encode(payload)
 
         return payload
