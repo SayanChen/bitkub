@@ -39,27 +39,30 @@ class Bitkub:
         return headers
 
     def _get_signature(self, payload):
-        message = self._json_encode(payload)
-        signature = hmac.new(self._get_api_secret(), msg=message.encode(), digestmod=hashlib.sha256).hexdigest()
+        signature = hmac.new(self._get_api_secret().encode('utf-8'), msg=payload.encode('utf-8), digestmod=hashlib.sha256).hexdigest()
 
         return signature
 
     def _get_timestamp(self):
-
-        url = self._get_path("SERVERTIME_PATH")
-
-        timestamp = int(basic_request('GET', url))
-        #timestamp = int(time.time())
+        timestamp = int(time.time()*1000)
 
         return timestamp
 
-    def _get_payload(self, **kwargs):
-        payload = {"X-BTK-TIMESTAMP": self._get_timestamp()}
-        payload.update(kwargs)
-        payload["X-BTK-SIGN"] = self._get_signature(payload)
-        payload = self._json_encode(payload)
+    def _get_payload(self, method, path **kwargs):
 
-        return payload
+        payload = []
+        payload.append(self._get_timestamp())
+        payload.append(str(method)
+        payload.append(path)
+        sig = self._get_signature(''.join(payload)
+        headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-BTK-TIMESTAMP': self._get_timestamp(),
+            'X-BTK-SIGN': sig,
+            'X-BTK-APIKEY': self.api_key.encode()
+        }
+        return headers
 
     def set_api_key(self, api_key):
         self.api_key = api_key
@@ -120,9 +123,9 @@ class Bitkub:
     @check_in_attributes(["api_key", "api_secret"])
     def wallet(self):
         url = self._get_path("MARKET_WALLET")
-        payload = self._get_payload()
+        headers = self._get_payload("POST",ENDPOINTS["MARKET_WALLET"])
 
-        return basic_request('POST', url, headers=self._get_headers(), payload=payload)
+        return basic_request('POST', url, headers=headers)
 
     @check_in_attributes(["api_key", "api_secret"])
     def balances(self):
