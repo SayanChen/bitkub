@@ -39,7 +39,7 @@ class Bitkub:
         return headers
 
     def _get_signature(self, payload):
-        signature = hmac.new(self._get_api_secret().encode('utf-8'), msg=payload.encode('utf-8'), digestmod=hashlib.sha256).hexdigest()
+        signature = hmac.new(self._get_api_secret().encode(), msg=payload.encode('utf-8'), digestmod=hashlib.sha256).hexdigest()
 
         return signature
 
