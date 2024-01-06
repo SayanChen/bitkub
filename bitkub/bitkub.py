@@ -44,7 +44,7 @@ class Bitkub:
         return signature
 
     def _get_timestamp(self):
-        timestamp = int(time.time()*1000)
+        timestamp = str(int(time.time()*1000))
 
         return timestamp
 
