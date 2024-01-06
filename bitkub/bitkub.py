@@ -48,7 +48,7 @@ class Bitkub:
 
         return timestamp
 
-    def _get_payload(self, method, path **kwargs):
+    def _get_payload(self, method, path, **kwargs):
 
         payload = []
         payload.append(self._get_timestamp())
