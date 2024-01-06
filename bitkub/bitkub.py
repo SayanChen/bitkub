@@ -52,7 +52,7 @@ class Bitkub:
 
         payload = []
         payload.append(self._get_timestamp())
-        payload.append(str(method)
+        payload.append(str(method))
         payload.append(path)
         sig = self._get_signature(''.join(payload)
         headers = {
