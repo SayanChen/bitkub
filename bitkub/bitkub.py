@@ -54,7 +54,7 @@ class Bitkub:
         payload.append(self._get_timestamp())
         payload.append(str(method))
         payload.append(path)
-        sig = self._get_signature(''.join(payload)
+        sig = self._get_signature(''.join(payload))
         headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
